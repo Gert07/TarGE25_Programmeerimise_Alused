@@ -2,3 +2,5 @@
 Sup 
 
 Autor: Martin Gert Puura
+
+Kes küsis?
