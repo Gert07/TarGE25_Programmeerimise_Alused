@@ -1,2 +1,4 @@
 # TarGE25_Programmeerimise_Alused
-Sup
+Sup 
+
+Autor: Martin Gert Puura
