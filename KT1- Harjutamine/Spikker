@@ -1,0 +1,30 @@
++ on liitmine
+- on lahutamine
+* on korrutamine
+/ on jagamine
+** on astendamine
+abs() on absoluutväärtus
+// on täisarvuline jagamine
+% on jääk
+
+< väiksem kui
+> suurem kui
+== võrdub (sama)
+!= ei võrdu
+<= väiksem kui või võrdne
+>= suurem kui või võrdne
+
+int = integer (täisarv)
+str = string (sõne)
+float = ujukomaarv
+def = definition (definitsioon)
+"".split() = eraldab lause sõnadeks tühikute järgi
+
+KORDUSED:
+while = käib nii kaua kuni tuleb vastandlik väärtus ("Fred" == "Fred" nt)
+for "i" in "range"(3) = Töötab nii mitu tsüklit kui on ette antud (nt 3(0,1,2))
+JÄRJEND:
+"list" = []
+lisad "list".append(muutuja mida lisad)
+
+if __name__ == "__main__":
