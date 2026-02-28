@@ -29,13 +29,12 @@ def greeting_program():
 
     previous = ""
     for i in range(10):
-        greeting = get_greeting(gender, age)
-        greetings.append(greeting)
-
-        if previous and greeting != previous:
+        greetings = get_greeting(gender, age)
+        append.greetings(greetings)
+        if previous and greetings != previous:
             break
 
-        previous = greeting
+        previous = greetings
         age += 1
 
     for i in range(len(greetings)):
