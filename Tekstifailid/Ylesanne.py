@@ -1,4 +1,5 @@
 """File operations."""
+import csv
 
 
 def read_file_contents(filename: str) -> str:
@@ -10,7 +11,8 @@ def read_file_contents(filename: str) -> str:
     :param filename: File to read.
     :return: File contents as string.
     """
-    pass
+    file = open(filename)
+    return file.read()
 
 
 def read_file_contents_to_list(filename: str) -> list:
@@ -26,7 +28,11 @@ def read_file_contents_to_list(filename: str) -> list:
     :param filename: File to read.
     :return: List of lines.
     """
-    pass
+    list = []
+    with open(filename) as file:
+        for line in file.readlines():
+            list.append(line.strip())
+    return list
 
 
 def read_csv_file(filename: str) -> list:
@@ -52,7 +58,12 @@ def read_csv_file(filename: str) -> list:
     :param filename: File to read.
     :return: List of lists.
     """
-    pass
+    rows = []
+    with open(filename) as file:
+        reader = csv.reader(file)
+        for row in reader:
+            rows.append(row)
+    return rows
 
 
 def write_contents_to_file(filename: str, contents: str) -> None:
@@ -65,7 +76,8 @@ def write_contents_to_file(filename: str, contents: str) -> None:
     :param contents: Content to write to.
     :return: None
     """
-    pass
+    file = open(filename, "w")
+    return file.write(contents)
 
 
 def write_lines_to_file(filename: str, lines: list) -> None:
@@ -81,7 +93,14 @@ def write_lines_to_file(filename: str, lines: list) -> None:
     :param lines: List of string to write to the file.
     :return: None
     """
-    pass
+    with open(filename, "w") as f:
+        row = 0
+        for line in lines:
+            if row == 0:
+                f.writelines(line)
+                row += 1
+            else:
+                f.writelines(f"\n{line}")
 
 
 def write_csv_file(filename: str, data: list) -> None:
@@ -105,7 +124,9 @@ def write_csv_file(filename: str, data: list) -> None:
     :param data: List of lists to write to the file.
     :return: None
     """
-    pass
+    with open(filename, "w") as file:
+        writer = csv.writer(file)
+        writer.writerows(data)
 
 
 def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv_output_filename: str) -> None:
@@ -153,4 +174,29 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     :param csv_output_filename: Output CSV-file with names, towns and dates.
     :return: None
     """
-    pass
+    data_map = {}
+    names_order = []
+    # dates
+    with open(dates_filename, mode='r') as f:
+        reader = csv.reader(f, delimiter=':')
+        for name, date in reader:
+            if name not in data_map:
+                names_order.append(name)
+                data_map[name] = ["-", "-"]
+            data_map[name][1] = date
+    # towns
+    with open(towns_filename, mode='r') as f:
+        reader = csv.reader(f, delimiter=':')
+        for name, town in reader:
+            if name not in data_map:
+                names_order.append(name)
+                data_map[name] = ["-", "-"]
+            data_map[name][0] = town
+
+    with open(csv_output_filename, mode='w') as f:
+        writer = csv.writer(f)
+        writer.writerow(["name", "town", "date"])
+
+        for name in names_order:
+            town, date = data_map[name]
+            writer.writerow([name, town, date])
