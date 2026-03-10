@@ -34,6 +34,11 @@ def zip_lists():
         print(f"Word is {word}")
         print(f"Id is {id}")
 
+def sum(n):
+    if n == 0:
+        return 0
+    else:
+        return n + sum(n - 1)
+
 
 if __name__ == "__main__":
-    zip_lists()
