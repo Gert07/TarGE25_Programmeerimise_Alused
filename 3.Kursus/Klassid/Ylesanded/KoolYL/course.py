@@ -1,25 +1,24 @@
-from statistics import mean
-from typing import Dict
-from student import Student
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from student import Student
 
 class Course:
-    """Info about courses."""
-
     def __init__(self, name: str):
-        """Initialize course object with name."""
-        self.__name = name
-        self.__grades: Dict[Student, int] = {}
+        self.name = name
+        self.grades = []  # list of tuples (Student, grade)
 
-    def get_grades(self) -> list[tuple[Student, int]]:
-        """Return a list of tuples where first is student object and second is their grade."""
-        return list(self.__grades.items())
+    def add_grade(self, student: "Student", grade: int):
+        """Abistav meetod hinde lisamiseks kursusele"""
+        self.grades.append((student, grade))
+
+    def get_grades(self) -> list[tuple["Student", int]]:
+        return self.grades
 
     def get_average_grade(self) -> float:
-        """Return the average grade of all students grades."""
-        if len(self.__grades) == 0:
+        if not self.grades:
             return -1
-        else:
-            return mean(self.__grades.values())
+        total = sum(grade for _, grade in self.grades)
+        return total / len(self.grades)
 
     def __repr__(self):
-        pass
+        return self.name
