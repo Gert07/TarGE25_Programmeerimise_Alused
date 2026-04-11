@@ -1,32 +1,38 @@
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from course import Course
+"""Student module."""
+
 
 class Student:
+    """Represents a student with grades and ID."""
+
     def __init__(self, name: str):
+        """Initialize student with a name."""
         self.name = name
-        self.id = None
-        self.grades = []  # list of tuples (Course, grade)
+        self._grades = []
+        self._id = None
 
     def set_id(self, id: int):
-        if self.id is None:
-            self.id = id
+        """Set unique ID if not already set."""
+        if self._id is None:
+            self._id = id
 
     def get_id(self) -> int:
-        return self.id
+        """Return student ID."""
+        return self._id
 
-    def add_grade(self, course: "Course", grade: int):
-        """Abistav meetod hinde lisamiseks õpilasele"""
-        self.grades.append((course, grade))
+    def add_grade(self, course, grade: int):
+        """Add a grade for a course."""
+        self._grades.append((course, grade))
 
     def get_grades(self) -> list[tuple["Course", int]]:
-        return self.grades
+        """Return list of (course, grade) tuples."""
+        return self._grades
 
-    def get_average_grade(self) -> float:
-        if not self.grades:
+    def get_average_grade(self):
+        """Return average grade or -1 if no grades."""
+        if not self._grades:
             return -1
-        total = sum(grade for _, grade in self.grades)
-        return total / len(self.grades)
+        return sum(g for _, g in self._grades) / len(self._grades)
 
     def __repr__(self) -> str:
+        """Return string representation of student."""
         return self.name

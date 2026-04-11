@@ -1,24 +1,28 @@
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from student import Student
+"""Course module."""
+
 
 class Course:
-    def __init__(self, name: str):
-        self.name = name
-        self.grades = []  # list of tuples (Student, grade)
+    """Represents a course with students and their grades."""
 
-    def add_grade(self, student: "Student", grade: int):
-        """Abistav meetod hinde lisamiseks kursusele"""
-        self.grades.append((student, grade))
+    def __init__(self, name: str):
+        """Initialize course with a name."""
+        self.name = name
+        self._grades = []
+
+    def add_grade(self, student, grade: int):
+        """Add a grade for a student."""
+        self._grades.append((student, grade))
 
     def get_grades(self) -> list[tuple["Student", int]]:
-        return self.grades
+        """Return list of (student, grade) tuples."""
+        return self._grades
 
     def get_average_grade(self) -> float:
-        if not self.grades:
+        """Return average grade or -1 if no grades."""
+        if not self._grades:
             return -1
-        total = sum(grade for _, grade in self.grades)
-        return total / len(self.grades)
+        return sum(g for _, g in self._grades) / len(self._grades)
 
     def __repr__(self):
+        """Return string representation of course."""
         return self.name

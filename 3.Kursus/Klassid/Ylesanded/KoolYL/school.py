@@ -1,38 +1,46 @@
-from student import Student
-from course import Course
+"""School module."""
+
 
 class School:
-    def __init__(self, name: str):
+    """Represents a school with students and courses."""
+
+    def __init__(self, name):
+        """Initialize school with a name."""
         self.name = name
-        self.students = []
-        self.courses = []
-        self.next_id = 1  # unikaalne ID uutele õpilastele
+        self._students = []
+        self._courses = []
+        self._next_id = 1
 
-    def add_course(self, course: Course):
-        if course not in self.courses:
-            self.courses.append(course)
+    def add_course(self, course):
+        """Add course if not already present."""
+        if course not in self._courses:
+            self._courses.append(course)
 
-    def add_student(self, student: Student):
-        if student not in self.students:
-            student.set_id(self.next_id)
-            self.next_id += 1
-            self.students.append(student)
+    def add_student(self, student):
+        """Add student and assign unique ID."""
+        if student not in self._students:
+            student.set_id(self._next_id)
+            self._next_id += 1
+            self._students.append(student)
 
-    def add_student_grade(self, student: Student, course: Course, grade: int):
-        """Lisab hinne ainult siis, kui õpilane ja kursus on koolis olemas"""
-        if student in self.students and course in self.courses:
+    def add_student_grade(self, student, course, grade: int):
+        """Add grade for student in a course."""
+        if student in self._students and course in self._courses:
             student.add_grade(course, grade)
             course.add_grade(student, grade)
 
-    def get_students(self) -> list[Student]:
-        return self.students
+    def get_students(self):
+        """Return list of students."""
+        return self._students
 
-    def get_courses(self) -> list[Course]:
-        return self.courses
+    def get_courses(self):
+        """Return list of courses."""
+        return self._courses
 
-    def get_students_ordered_by_average_grade(self) -> list[Student]:
+    def get_students_ordered_by_average_grade(self):
+        """Return students sorted by average grade (descending)."""
         return sorted(
-            self.students,
+            self._students,
             key=lambda s: s.get_average_grade(),
             reverse=True
         )
