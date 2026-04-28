@@ -51,7 +51,7 @@ def sort_by_popularity(tweets: list) -> list:
     :param tweets: Input list of tweets.
     :return: List of tweets by popularity
     """
-    pass
+    return sorted(tweets, key=lambda t: (t.retweets, -t.time), reverse=True)
 
 
 def filter_by_hashtag(tweets: list, hashtag: str) -> list:
@@ -64,7 +64,11 @@ def filter_by_hashtag(tweets: list, hashtag: str) -> list:
     :param hashtag: Hashtag to filter by.
     :return: Filtered list of tweets.
     """
-    pass
+    tweets_filtered = []
+    for tweet in tweets:
+        if hashtag.lower() in tweet.content.lower():
+            tweets_filtered.append(tweet)
+    return tweets_filtered
 
 
 def sort_hashtags_by_popularity(tweets: list) -> list:
@@ -81,7 +85,12 @@ def sort_hashtags_by_popularity(tweets: list) -> list:
     :param tweets: Input list of tweets.
     :return: List of hashtags by popularity.
     """
-    pass
+    hashtag_popularity = {}
+    for tweet in tweets:
+        for word in tweet.content.split():
+            if word.startswith('#'):
+                hashtag_popularity[word] = hashtag_popularity.get(word, 0) + tweet.retweets
+    return sorted(hashtag_popularity, key=lambda h: (-hashtag_popularity[h], h.swapcase()))
 
 
 if __name__ == '__main__':
