@@ -1,0 +1,6 @@
+HardwareComponents all on klassid CPU, GPU ja RAMi jaoks.
+PCBuild all on klass, mis paneb CPU, GPU ja RAMi kokku.
+Maini all on listid uuematest komponenditest. Vastavad funktsioonid mis näitavad kataloogi ja olenevalt kas valid
+kataloogist või lisad uue osa. Kui valid uue osa, salvestab see selle vastava komponendi listi, et järgmine kord
+ei peaks uuesti kirjutama sisse seda osa. 2 getterit on vastavalt kas hinna või rami jaoks (hind float, ram int).
+3 funktsiooni et sisestada info komponentide kohta (list v custom). Main, mis kogu asja käivitab.

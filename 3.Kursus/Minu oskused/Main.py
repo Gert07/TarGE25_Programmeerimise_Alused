@@ -1,6 +1,6 @@
-# ─────────────────────────────────────────────
+from PCBuild import *
+
 #  HARDWARE CATALOG  (brand, model, GB, price)
-# ─────────────────────────────────────────────
 
 CPU_CATALOG = [
     ("Intel",  "Core i9-14900K",    None,  589.00),
@@ -41,95 +41,8 @@ RAM_CATALOG = [
     ("Crucial",  "Ballistix DDR4",   16,    40.00),
 ]
 
-
-# ─────────────────────────────────────────────
-#  OOP CLASSES
-# ─────────────────────────────────────────────
-
-class HardwareComponent:
-    LABEL_W  = 4
-    DETAIL_W = 38
-
-    def __init__(self, name, brand, model, price):
-        self.name  = name
-        self.brand = brand
-        self.model = model
-        self.price = price
-
-    def detail_str(self):
-        return f"{self.brand} {self.model}"
-
-    def __str__(self):
-        label  = self.name.ljust(self.LABEL_W)
-        detail = self.detail_str().ljust(self.DETAIL_W)
-        return f"  {label}  {detail}  ${self.price:>9,.2f}"
-
-
-class CPU(HardwareComponent):
-    def __init__(self, brand, model, price):
-        super().__init__("CPU", brand, model, price)
-
-
-class GPU(HardwareComponent):
-    def __init__(self, brand, model, price):
-        super().__init__("GPU", brand, model, price)
-
-
-class RAM(HardwareComponent):
-    def __init__(self, brand, model, capacity_gb, price):
-        super().__init__("RAM", brand, model, price)
-        self.capacity_gb = capacity_gb
-
-    def detail_str(self):
-        return f"{self.brand} {self.model} {self.capacity_gb}GB"
-
-
-class PCBuild:
-    def __init__(self, build_name):
-        self.build_name = build_name
-        self.components = []
-
-    def add_component(self, component):
-        self.components.append(component)
-
-    def total_cost(self):
-        return sum(c.price for c in self.components)
-
-    def display_summary(self):
-        L = HardwareComponent.LABEL_W   # 4  — "CPU", "GPU", "RAM", "Part"
-        D = HardwareComponent.DETAIL_W  # 38 — details column
-        P = 9                           # price field width: "1,999.00"
-        # Every line follows:  "  {label:<L}  {detail:<D}  ${price:>P}"
-        W = 2 + L + 2 + D + 2 + 1 + P  # 2+4+2+38+2+1+9 = 58
-
-        # Component __str__: f"  {label:<L}  {detail:<D}  ${price:>P,.2f}"
-        # Dollar sign is always at position: 2+L+2+D+2 = 48
-        dollar_at = 2 + L + 2 + D + 2  # = 48
-
-        def row(label, detail, price_str):
-            # label + detail fill the left side; price_str goes after the $
-            left = f"  {label:<{L}}  {detail:<{D}}"
-            return f"{left}  ${price_str:>{P}}"
-
-        print("\n" + "=" * W)
-        print(f"  BUILD: {self.build_name}")
-        print("=" * W)
-        print(row("Part", "Details", " Price"))
-        print("-" * W)
-        for c in self.components:
-            print(c)
-        print("-" * W)
-        # TOTAL: pad left side to dollar_at chars, then $price
-        left = f"  {'TOTAL':<{dollar_at - 2}}"
-        print(f"{left}${self.total_cost():>{P},.2f}")
-        print("=" * W)
-
-
-# ─────────────────────────────────────────────
-#  CATALOG DISPLAY & PICKER
-# ─────────────────────────────────────────────
-
 def show_catalog(catalog, has_gb=False):
+    """Shows catalog."""
     print(f"  {'#':<4} {'Brand':<10} {'Model':<24}", end="")
     if has_gb:
         print(f" {'GB':>4}", end="")
@@ -147,7 +60,7 @@ def show_catalog(catalog, has_gb=False):
 
 
 def pick_from_catalog(catalog, has_gb=False):
-    """Show catalog, let user pick by number or enter custom. Returns component tuple."""
+    """Choose from catalog, let user pick by number or enter custom. Returns component tuple."""
     while True:
         choice = input(f"\n  Enter number (1-{len(catalog)}) or 0 for custom: ").strip()
         try:
@@ -187,10 +100,6 @@ def get_int(prompt):
         except ValueError:
             print("    Please enter a whole number.")
 
-
-# ─────────────────────────────────────────────
-#  INPUT FUNCTIONS
-# ─────────────────────────────────────────────
 
 def input_cpu():
     print("\n┌─ CPU Catalog ──────────────────────────────────────────")
@@ -252,10 +161,6 @@ def input_ram():
         print(f"  ✔ Added to catalog as #{len(RAM_CATALOG)}")
         return RAM(brand, model, gb, price)
 
-
-# ─────────────────────────────────────────────
-#  MAIN
-# ─────────────────────────────────────────────
 
 def main():
     print("=" * 58)
