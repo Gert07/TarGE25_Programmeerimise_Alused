@@ -1,9 +1,6 @@
 class HardwareComponent:
-    LABEL_W  = 4
-    DETAIL_W = 38
-
     def __init__(self, name, brand, model, price):
-        self.name  = name
+        self.name = name
         self.brand = brand
         self.model = model
         self.price = price
@@ -12,9 +9,7 @@ class HardwareComponent:
         return f"{self.brand} {self.model}"
 
     def __str__(self):
-        label  = self.name.ljust(self.LABEL_W)
-        detail = self.detail_str().ljust(self.DETAIL_W)
-        return f"  {label}  {detail}  ${self.price:>9,.2f}"
+        return f"{self.name}: {self.detail_str()} - ${self.price:.2f}"
 
 
 class CPU(HardwareComponent):
